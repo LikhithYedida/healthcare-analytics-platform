@@ -1,0 +1,76 @@
+{
+  "name": "pl_ingest_synthea_to_bronze",
+  "properties": {
+    "description": "Sanitized portfolio representation of the Azure Data Factory pipeline used to ingest synthetic Synthea CSV files into the healthcare analytics Bronze landing area.",
+    "activities": [
+      {
+        "name": "Copy_Synthea_CSVs",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+              "type": "AzureBlobFSReadSettings",
+              "recursive": true,
+              "wildcardFileName": "*.csv",
+              "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            }
+          },
+          "sink": {
+            "type": "DelimitedTextSink",
+            "storeSettings": {
+              "type": "AzureBlobFSWriteSettings",
+              "copyBehavior": "PreserveHierarchy"
+            },
+            "formatSettings": {
+              "type": "DelimitedTextWriteSettings",
+              "quoteAllText": false,
+              "fileExtension": ".csv"
+            }
+          },
+          "enableStaging": false
+        },
+        "inputs": [
+          {
+            "referenceName": "ds_synthea_source",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "ds_bronze_sink",
+            "type": "DatasetReference"
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "source_path": {
+        "type": "string",
+        "defaultValue": "synthea"
+      },
+      "bronze_path": {
+        "type": "string",
+        "defaultValue": "bronze/synthea_raw"
+      }
+    },
+    "annotations": [
+      "healthcare-analytics",
+      "synthetic-data",
+      "bronze-ingestion",
+      "portfolio-sanitized"
+    ]
+  }
+}
