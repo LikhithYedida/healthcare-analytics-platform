@@ -310,13 +310,6 @@ This platform is designed to answer questions such as:
 - Where are 30-day readmissions concentrated?
 - Which operational areas warrant deeper review?
 
----
-
-## Tableau Dashboard
-
-**Live Tableau dashboard:** _Add Tableau Public URL here after publication._
-
-Once published, replace the line above with the public Tableau link.
 
 ---
 
